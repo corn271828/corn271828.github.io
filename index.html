@@ -23,6 +23,13 @@ title: "Corn"
     var dx = 2;
     var dy = 2;
 
+    var paddleHeight = 10;
+    var paddleWidth = 75;
+    var paddleX = (canvas.width-paddleWidth) / 2;
+
+    var rightpressed = false;
+    var leftpressed = false;
+
     function drawball() {
       ctx.beginPath();
       ctx.arc(x, y, ballradius, 0, Math.PI*2);
@@ -31,21 +38,64 @@ title: "Corn"
       ctx.closePath();
     }
 
+    function drawPaddle() {
+      ctx.beginPath();
+      ctx.rect(paddleX, canvas.height - paddleHeight - 10, paddleWidth, paddleHeight);
+      ctx.fillStyle = "#0095DD";
+      ctx.fill();
+      ctx.closePath();
+    }
+
     function draw() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       drawball();
+      drawPaddle();
 
-      if (y + dy < ballradius || y + dy > canvas.height + ballradius) {
+      if (y + dy < ballradius || y + dy > canvas.height - ballradius) {
         dy = - dy;
       }
 
-      if (x + dx < ballradius || x + dx > canvas.width + ballradius) {
+      if (x + dx < ballradius || x + dx > canvas.width - ballradius) {
         dx = - dx;
       }
 
       x += dx;
       y += dy;
+
+      if (rightpressed) {
+        if (!leftpressed) {
+          paddleX += 7;
+          if (paddleX > canvas.width - paddleWidth) {
+            paddleX = canvas.width - paddleWidth;
+          }
+        }
+      } else if (leftpressed) {
+        paddleX -= 7;
+        if (paddleX < 0) {
+          paddleX = 0;
+        }
+      }
     }
+
+    function keyDownHandler(e) {
+      if (e.key == "Right" || e.key == "ArrowRight") {
+        rightpressed = true;
+      } else if (e.key == "Left" || e.key == "ArrowLeft") {
+        leftpressed = true;
+      }
+    } 
+
+    function keyUpHandler(e) {
+      if (e.key == "Right" || e.key == "ArrowRight") {
+        rightpressed = false;
+      } else if (e.key == "Left" || e.key == "ArrowLeft") {
+        leftpressed = false;
+      }
+    } 
+
+
+    document.addEventListener("keydown", keyDownHandler, false);
+    document.addEventListener("keyup", keyUpHandler, false);
 
     setInterval(draw, 25);
   </script>
