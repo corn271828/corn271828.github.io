@@ -54,9 +54,9 @@ title: "Corn"
 
       if (y + dy < ballradius) {
         dy = -dy;
-      } else if (x > paddleX && x < paddleX + paddleWidth && y + dy < paddleY + paddleHeight && y + dy > paddleY && dy > 0) {
+      } else if (x > paddleX && x < paddleX + paddleWidth && y + dy < paddleY + paddleHeight && y + dy >= paddleY && dy > 0) {
         dy = -dy;
-      } else if (y + dy > canvas.height - ballradius) {
+      } else if (y > canvas.height - ballradius) {
         alert("Game Over.");
         document.location.reload();
         clearInterval(interval);
