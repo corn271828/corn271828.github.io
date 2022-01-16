@@ -26,6 +26,7 @@ title: "Corn"
     var paddleHeight = 10;
     var paddleWidth = 75;
     var paddleX = (canvas.width-paddleWidth) / 2;
+    var paddleY = canvas.height - paddleHeight - 10;
 
     var rightpressed = false;
     var leftpressed = false;
@@ -40,7 +41,7 @@ title: "Corn"
 
     function drawPaddle() {
       ctx.beginPath();
-      ctx.rect(paddleX, canvas.height - paddleHeight - 10, paddleWidth, paddleHeight);
+      ctx.rect(paddleX, paddleY, paddleWidth, paddleHeight);
       ctx.fillStyle = "#0095DD";
       ctx.fill();
       ctx.closePath();
@@ -51,8 +52,14 @@ title: "Corn"
       drawball();
       drawPaddle();
 
-      if (y + dy < ballradius || y + dy > canvas.height - ballradius) {
-        dy = - dy;
+      if (y + dy < ballradius) {
+        dy = -dy;
+      } else if (x > paddleX && x < paddleX + paddleWidth && y + dy < paddleY + paddleHeight && y + dy > paddleY && dy > 0) {
+        dy = -dy;
+      } else if (y + dy > canvas.height - ballradius) {
+        alert("Game Over.");
+        document.location.reload();
+        clearInterval(interval);
       }
 
       if (x + dx < ballradius || x + dx > canvas.width - ballradius) {
@@ -97,6 +104,6 @@ title: "Corn"
     document.addEventListener("keydown", keyDownHandler, false);
     document.addEventListener("keyup", keyUpHandler, false);
 
-    setInterval(draw, 25);
+    var interval = setInterval(draw, 25);
   </script>
 </div>
