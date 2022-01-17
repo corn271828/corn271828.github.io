@@ -28,11 +28,11 @@ title: "Corn"
 
       ctx.font = "16px Arial";
       ctx.fillStyle = selection == 1 ? "#11A6EE" : "#0095DD";
-      ctx.fillText("Hard", 8, 30);
+      ctx.fillText("Hard", 8, 60);
 
       ctx.font = "16px Arial";
       ctx.fillStyle = selection == 2 ? "#11A6EE" : "#0095DD";
-      ctx.fillText("Bruh", 8, 30);
+      ctx.fillText("Bruh", 8, 90);
       
     }
 
@@ -57,9 +57,9 @@ title: "Corn"
 
     var beginInterval = setInterval(drawBeginScreen, 25);
 
-    //while (!beginScreenOver) {
-      //pass;
-    //}
+    while (!beginScreenOver) {
+      await new Promise(resolve => setTimeout(resolve, 25));
+    }
 
     document.removeEventListener("keypress", keySelectionHandler, false);
 
