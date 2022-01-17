@@ -128,10 +128,10 @@ title: "Corn"
     function collisionDetection() {
       for(var c=0; c<brickCols; c++) {
         for(var r=0; r<brickRows; r++) {
+          var b = bricks[c][r];
           if (b.status != 1) {
             continue;
           }
-          var b = bricks[c][r];
           if(x > b.x-ballradius && x < b.x+brickWidth+ballradius && y > b.y-ballradius && y < b.y+brickHeight+ballradius) {
               dy = -dy;
               b.status = 0;
