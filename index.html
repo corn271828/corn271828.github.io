@@ -31,8 +31,8 @@ title: "Corn"
     var rightpressed = false;
     var leftpressed = false;
 
-    var brickRows = 2;
-    var brickCols = 3;
+    var brickRows = 3;
+    var brickCols = 5;
     var brickWidth = 125;
     var brickHeight = 20;
     var brickPadding = 10;
@@ -150,9 +150,9 @@ title: "Corn"
 
               if (bricksbroken == brickCols * brickRows) {
                 clearInterval(interval);
-                ctx.font = "100px Arial";
+                ctx.font = "60px Arial";
                 ctx.fillStyle = "#0095DD";
-                ctx.fillText("Congratulations", 30, 30);
+                ctx.fillText("Congratulations", 30, 100);
               }
           }
         }
