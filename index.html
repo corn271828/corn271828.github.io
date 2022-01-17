@@ -58,6 +58,9 @@ title: "Corn"
     function drawBricks() {
       for(var c=0; c < brickCols; c++) {
         for(var r=0; r < brickRows; r++) {
+          if (bricks[c][r].status != 1) {
+            continue;
+          }
           ctx.beginPath();
           ctx.rect(bricks[c][r].x, bricks[c][r].y, brickWidth, brickHeight);
           ctx.fillStyle = "#0095DD";
@@ -121,11 +124,26 @@ title: "Corn"
       }
     } 
 
+    function collisionDetection() {
+      for(var c=0; c<brickColumnCount; c++) {
+        for(var r=0; r<brickRowCount; r++) {
+          if (b.status != 1) {
+            continue;
+          }
+          var b = bricks[c][r];
+          if(x > b.x-ballradius && x < b.x+brickWidth+ballradius && y > b.y-ballradius && y < b.y+brickHeight+ballradius) {
+              dy = -dy;
+              b.status = 0;
+          }
+        }
+      }
+    }
+
     var bricks = [];
     for (var c = 0; c < brickCols; c++) {
       bricks[c] = [];
       for (var r = 0; r < brickRows; r++) {
-        bricks[c][r] = {x:(c*(brickWidth+brickPadding))+brickOffsetLeft, y:(r*(brickHeight+brickPadding))+brickOffsetTop};
+        bricks[c][r] = {x:(c*(brickWidth+brickPadding))+brickOffsetLeft, y:(r*(brickHeight+brickPadding))+brickOffsetTop, status:1};
       }
     }
 
