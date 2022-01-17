@@ -25,11 +25,19 @@ title: "Corn"
 
     var paddleHeight = 10;
     var paddleWidth = 75;
-    var paddleX = (canvas.width-paddleWidth) / 2;
+    var paddleX = (canvas.width - paddleWidth) / 2;
     var paddleY = canvas.height - paddleHeight - 10;
 
     var rightpressed = false;
     var leftpressed = false;
+
+    var brickRows = 3;
+    var brickCols = 5;
+    var brickWidth = 75;
+    var brickHeight = 20;
+    var brickPadding = 10;
+    var brickOffsetTop = 30;
+    var brickOffsetLeft = 30;
 
     function drawball() {
       ctx.beginPath();
@@ -45,6 +53,18 @@ title: "Corn"
       ctx.fillStyle = "#0095DD";
       ctx.fill();
       ctx.closePath();
+    }
+
+    function drawBricks() {
+      for(var c=0; c<brickColumnCount; c++) {
+        for(var r=0; r<brickRowCount; r++) {
+          ctx.beginPath();
+          ctx.rect(bricks[c][r].x, bricks[c][r].y, brickWidth, brickHeight);
+          ctx.fillStyle = "#0095DD";
+          ctx.fill();
+          ctx.closePath();
+        }
+      }
     }
 
     function draw() {
@@ -99,6 +119,14 @@ title: "Corn"
         leftpressed = false;
       }
     } 
+
+    var bricks = [];
+    for (var c = 0; c < brickCols; c++) {
+      bricks[c] = [];
+      for (var r = 0; r < brickRows; r++) {
+        bricks[c][r] = {x:(c*(brickWidth+brickPadding))+brickOffsetLeft, y:(r*(brickHeight+brickPadding))+brickOffsetTop};
+      }
+    }
 
 
     document.addEventListener("keydown", keyDownHandler, false);
