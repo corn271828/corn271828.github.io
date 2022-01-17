@@ -57,6 +57,14 @@ title: "Corn"
 
     var beginInterval = setInterval(drawBeginScreen, 25);
 
+    function sleep(milliseconds) {
+      const date = Date.now();
+      let currentDate = null;
+      do {
+        currentDate = Date.now();
+      } while (currentDate - date < milliseconds);
+    }
+
     while (!beginScreenOver) {
       sleep(25);
     }
