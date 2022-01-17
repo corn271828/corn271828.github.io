@@ -33,7 +33,7 @@ title: "Corn"
 
     var brickRows = 3;
     var brickCols = 5;
-    var brickWidth = 125;
+    var brickWidth = 75;
     var brickHeight = 20;
     var brickPadding = 10;
     var brickOffsetTop = 30;
@@ -92,8 +92,9 @@ title: "Corn"
       } else if (x > paddleX && x < paddleX + paddleWidth && y + dy < paddleY + paddleHeight && y + dy >= paddleY && dy > 0) {
         dy = -dy;
       } else if (y > canvas.height - ballradius) {
-        alert("Game Over.");
-        document.location.reload();
+        ctx.font = "60px Arial";
+        ctx.fillStyle = "#0095DD";
+        ctx.fillText("Game Over", 8, 100);
         clearInterval(interval);
       }
 
