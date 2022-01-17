@@ -71,7 +71,8 @@ title: "Corn"
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       drawball();
       drawPaddle();
-
+      drawBricks();
+      
       if (y + dy < ballradius) {
         dy = -dy;
       } else if (x > paddleX && x < paddleX + paddleWidth && y + dy < paddleY + paddleHeight && y + dy >= paddleY && dy > 0) {
