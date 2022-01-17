@@ -33,12 +33,12 @@ title: "Corn"
 
     var brickRows = 3;
     var brickCols = 5;
-    var brickWidth = 75;
     var brickHeight = 20;
     var brickPadding = 10;
     var brickOffsetTop = 30;
     var brickOffsetLeft = 30;
-
+    var brickWidth = (canvas.width - brickOffsetLeft * 2 - brickPadding * (brickCols - 1)) / brickCols ;
+    
     var score = 0;
     var bricksbroken = 0;
 
@@ -94,7 +94,7 @@ title: "Corn"
       } else if (y > canvas.height - ballradius) {
         ctx.font = "60px Arial";
         ctx.fillStyle = "#0095DD";
-        ctx.fillText("Game Over", 8, 100);
+        ctx.fillText("Game Over", 8, canvas.height / 2 + 30);
         clearInterval(interval);
       }
 
