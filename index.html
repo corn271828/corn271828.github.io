@@ -31,13 +31,16 @@ title: "Corn"
     var rightpressed = false;
     var leftpressed = false;
 
-    var brickRows = 3;
-    var brickCols = 5;
-    var brickWidth = 75;
+    var brickRows = 2;
+    var brickCols = 3;
+    var brickWidth = 125;
     var brickHeight = 20;
     var brickPadding = 10;
     var brickOffsetTop = 30;
     var brickOffsetLeft = 30;
+
+    var score = 0;
+    var bricksbroken = 0;
 
     function drawball() {
       ctx.beginPath();
@@ -70,12 +73,19 @@ title: "Corn"
       }
     }
 
+    function drawScore() {
+      ctx.font = "16px Arial";
+      ctx.fillStyle = "#0095DD";
+      ctx.fillText("Score: "+score, 8, 20);
+    }
+
     function draw() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       collisionDetection();
       drawball();
       drawPaddle();
       drawBricks();
+      drawScore();
 
       if (y + dy < ballradius) {
         dy = -dy;
@@ -135,6 +145,15 @@ title: "Corn"
           if(x > b.x-ballradius && x < b.x+brickWidth+ballradius && y > b.y-ballradius && y < b.y+brickHeight+ballradius) {
               dy = -dy;
               b.status = 0;
+              bricksbroken++;
+              score += 100;
+
+              if (bricksbroken == brickCols * brickRows) {
+                clearInterval(interval);
+                ctx.font = "100px Arial";
+                ctx.fillStyle = "#0095DD";
+                ctx.fillText("Congratulations", 30, 30);
+              }
           }
         }
       }
