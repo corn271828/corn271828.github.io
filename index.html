@@ -16,6 +16,54 @@ title: "Corn"
     var canvas = document.getElementById("myCanvas");
     var ctx = canvas.getContext("2d");
 
+    var selection = 0;
+    var beginScreenOver = False;
+
+    function drawBeginScreen() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      ctx.font = "16px Arial";
+      ctx.fillStyle = selection == 0 ? "#11A6EE" : "#0095DD";
+      ctx.fillText("Easy", 8, 30);
+
+      ctx.font = "16px Arial";
+      ctx.fillStyle = selection == 1 ? "#11A6EE" : "#0095DD";
+      ctx.fillText("Hard", 8, 30);
+
+      ctx.font = "16px Arial";
+      ctx.fillStyle = selection == 2 ? "#11A6EE" : "#0095DD";
+      ctx.fillText("Bruh", 8, 30);
+      
+    }
+
+    function keySelectionHandler(e) {
+      if (e.key == "Down" || e.key == "ArrowDown") {
+        selection += 1;
+        if (selection >= 3) {
+          selection = 0;
+        }
+      } else if (e.key == "Up" || e.key == "ArrowUp") {
+        selection -= 1;
+        if (selection < 0) {
+          selection = 2;
+        }
+      } else if (e.key == "Enter") {
+        clearInterval(beginInterval);
+        beginScreenOver = True;
+      }
+    }
+
+    document.addEventListener("keypress", keySelectionHandler, false);
+
+    var beginInterval = setInterval(drawBeginScreen, 25);
+
+    while (!beginScreenOver) {
+      //pass;
+    }
+
+    document.removeEventListener("keypress", keySelectionHandler, false);
+
+
     var x = canvas.width / 2;
     var y = canvas.height / 2;
     var ballradius = 10;
@@ -31,14 +79,14 @@ title: "Corn"
     var rightpressed = false;
     var leftpressed = false;
 
-    var brickRows = 3;
-    var brickCols = 5;
+    var brickRows = selection + 2;
+    var brickCols = selection * 2 + 3;
     var brickHeight = 20;
     var brickPadding = 10;
     var brickOffsetTop = 30;
     var brickOffsetLeft = 30;
     var brickWidth = (canvas.width - brickOffsetLeft * 2 - brickPadding * (brickCols - 1)) / brickCols ;
-    
+
     var score = 0;
     var bricksbroken = 0;
 
