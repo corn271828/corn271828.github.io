@@ -58,7 +58,7 @@ title: "Corn"
     var beginInterval = setInterval(drawBeginScreen, 25);
 
     while (!beginScreenOver) {
-      await new Promise(resolve => setTimeout(resolve, 25));
+      sleep(25);
     }
 
     document.removeEventListener("keypress", keySelectionHandler, false);
