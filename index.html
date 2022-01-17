@@ -56,8 +56,8 @@ title: "Corn"
     }
 
     function drawBricks() {
-      for(var c=0; c<brickColumnCount; c++) {
-        for(var r=0; r<brickRowCount; r++) {
+      for(var c=0; c < brickCols; c++) {
+        for(var r=0; r < brickRows; r++) {
           ctx.beginPath();
           ctx.rect(bricks[c][r].x, bricks[c][r].y, brickWidth, brickHeight);
           ctx.fillStyle = "#0095DD";
@@ -72,7 +72,7 @@ title: "Corn"
       drawball();
       drawPaddle();
       drawBricks();
-      
+
       if (y + dy < ballradius) {
         dy = -dy;
       } else if (x > paddleX && x < paddleX + paddleWidth && y + dy < paddleY + paddleHeight && y + dy >= paddleY && dy > 0) {
