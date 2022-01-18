@@ -19,18 +19,17 @@ title: "Corn"
     const ctx = canvas.getContext("2d");
 
     let selection = 0;
-    let difficulties = ["Easy", "Hard", "Insane", "Lunatic", "Bruh", "Ultra-Bruh", "Super-Ultra-Bruh", "Super-Duper-Ultra-Bruh"]
-    let numDiffs = difficulties.length;
+    const difficulties = ["Easy", "Hard", "Insane", "Lunatic", "Bruh", "Ultra-Bruh", "Super-Ultra-Bruh", "Super-Duper-Ultra-Bruh"]
 
     let beginScreenOver = false;
 
     function drawBeginScreen() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      for (let i = 0; i < numDiffs; i++) {
+      for (const [i, name] of difficulties.entries()) {
         ctx.font = (selection == i ? "bold " : "") + "16px Arial";
         ctx.fillStyle = selection == i ? "#11A6EE" : "#0095DD";
-        ctx.fillText(difficulties[i], 20, 30 + 30 * i);
+        ctx.fillText(name, 20, 30 + 30 * i);
       }
     }
 
@@ -38,17 +37,11 @@ title: "Corn"
         switch (e.key) {
           case "Down":
           case "ArrowDown":
-            selection += 1;
-            if (selection >= numDiffs) {
-              selection = 0;
-            }
+            selection = (selection + 1) % difficulties.length;
             break;
           case "Up":
           case "ArrowUp":
-            selection -= 1;
-            if (selection < 0) {
-              selection = numDiffs - 1;
-            }
+            selection = (selection + difficulties.length - 1) % difficulties.length;
             break;
           case "Enter":
             if (!beginScreenOver) {
@@ -64,38 +57,44 @@ title: "Corn"
 
     canvas.addEventListener("keydown", keySelectionHandler, false);
 
-    var beginInterval = setInterval(drawBeginScreen, 25);
+    const beginInterval = setInterval(drawBeginScreen, 25);
 
     function postBeginScreen() {
       canvas.removeEventListener("keydown", keySelectionHandler, false);
       clearInterval(beginInterval);
 
-      var x = canvas.width / 2;
-      var y = canvas.height / 2;
+      const Status = {
+        DEAD: 0,
+        ALIVE: 1,
+      };
+
+      let x = canvas.width / 2;
+      let y = canvas.height / 2;
       if (selection > 5) {
         y += (selection - 5) * 20;
       }
 
-      var ballradius = 10;
+      const ballradius = 10;
 
-      var dx = 2 + selection;
-      var dy = 2 + selection;
+      let dx = 2 + selection;
+      let dy = 2 + selection;
 
-      var paddleHeight = 10;
-      var paddleWidth = 75;
-      var paddleX = (canvas.width - paddleWidth) / 2;
-      var paddleY = canvas.height - paddleHeight - 10;
+      const paddleHeight = 10;
+      const paddleWidth = 75;
+      let paddleX = (canvas.width - paddleWidth) / 2;
+      let paddleY = canvas.height - paddleHeight - 10;
 
-      var brickRows = selection + 2;
-      var brickCols = selection * 2 + 3;
-      var brickHeight = 20;
-      var brickPadding = 10;
-      var brickOffsetTop = 30;
-      var brickOffsetLeft = 30;
-      var brickWidth = (canvas.width - brickOffsetLeft * 2 - brickPadding * (brickCols - 1)) / brickCols ;
+      const brickRows = selection + 2;
+      const brickCols = selection * 2 + 3;
+      const brickHeight = 20;
+      const brickPadding = 10;
+      const brickOffsetTop = 30;
+      const brickOffsetLeft = 30;
+      const brickWidth = (canvas.width - brickOffsetLeft * 2 - brickPadding * (brickCols - 1)) / brickCols;
+      const bricks = [];
 
-      var score = 0;
-      var bricksbroken = 0;
+      let score = 0;
+      let bricksbroken = 0, bricksToBreak = 0;
 
       function drawball() {
         ctx.beginPath();
@@ -114,17 +113,15 @@ title: "Corn"
       }
 
       function drawBricks() {
-        for(var c=0; c < brickCols; c++) {
-          for(var r=0; r < brickRows; r++) {
-            if (bricks[c][r].status != 1) {
-              continue;
-            }
-            ctx.beginPath();
-            ctx.rect(bricks[c][r].x, bricks[c][r].y, brickWidth, brickHeight);
-            ctx.fillStyle = "#0095DD";
-            ctx.fill();
-            ctx.closePath();
+        for (const brick of bricks) {
+          if (brick.status != Status.ALIVE) {
+            continue;
           }
+          ctx.beginPath();
+          ctx.rect(brick.x, brick.y, brickWidth, brickHeight);
+          ctx.fillStyle = "#0095DD";
+          ctx.fill();
+          ctx.closePath();
         }
       }
 
@@ -154,7 +151,7 @@ title: "Corn"
         }
 
         if (x + dx < ballradius || x + dx > canvas.width - ballradius) {
-          dx = - dx;
+          dx = -dx;
         }
 
         x += dx;
@@ -187,34 +184,33 @@ title: "Corn"
       const rightDown = () => pressed.has("Right") || pressed.has("ArrowRight");
 
       function collisionDetection() {
-        for(var c=0; c<brickCols; c++) {
-          for(var r=0; r<brickRows; r++) {
-            var b = bricks[c][r];
-            if (b.status != 1) {
-              continue;
-            }
-            if(x > b.x-ballradius && x < b.x+brickWidth+ballradius && y > b.y-ballradius && y < b.y+brickHeight+ballradius) {
-                dy = -dy;
-                b.status = 0;
-                bricksbroken++;
-                score += 100;
+        for (const b of bricks) {
+          if (b.status != Status.ALIVE) {
+            continue;
+          }
+          if (x > b.x - ballradius && x < b.x + brickWidth + ballradius && y > b.y - ballradius && y < b.y + brickHeight + ballradius) {
+            dy = -dy;
+            b.status = Status.DEAD;
+            bricksbroken++;
+            score += 100;
 
-                if (bricksbroken == brickCols * brickRows) {
-                  clearInterval(interval);
-                  ctx.font = "60px Arial";
-                  ctx.fillStyle = "#0095DD";
-                  ctx.fillText("Congratulations", 30, 100);
-                }
+            if (bricksbroken == bricksToBreak) {
+              clearInterval(interval);
+              ctx.font = "60px Arial";
+              ctx.fillStyle = "#0095DD";
+              ctx.fillText("Congratulations", 30, 100);
             }
           }
         }
       }
 
-      var bricks = [];
-      for (var c = 0; c < brickCols; c++) {
-        bricks[c] = [];
-        for (var r = 0; r < brickRows; r++) {
-          bricks[c][r] = {x:(c*(brickWidth+brickPadding))+brickOffsetLeft, y:(r*(brickHeight+brickPadding))+brickOffsetTop, status:1};
+      for (let c = 0; c < brickCols; c++) {
+        for (let r = 0; r < brickRows; r++) {
+          bricks.push({
+            x: c * (brickWidth + brickPadding) + brickOffsetLeft,
+            y: r * (brickHeight + brickPadding) + brickOffsetTop,
+            status: Status.ALIVE,
+          });
         }
       }
 
@@ -222,7 +218,7 @@ title: "Corn"
       canvas.addEventListener("keydown", keyDownHandler, false);
       canvas.addEventListener("keyup", keyUpHandler, false);
 
-      var interval = setInterval(draw, 25);
+      const interval = setInterval(draw, 25);
     }
   </script>
 </div>
