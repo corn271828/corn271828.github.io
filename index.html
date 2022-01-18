@@ -10,7 +10,7 @@ title: "Corn"
 <div class="home">
   <p> Hello world! <p>
 
-  <canvas id="myCanvas" width="480" height="320"></canvas>
+  <canvas id="myCanvas" width="480" height="320" tabindex=1></canvas>
 
   <script>
     const canvas = document.getElementById("myCanvas");
@@ -61,13 +61,15 @@ title: "Corn"
         }
     }
 
+    canvas.focus();
 
-    document.addEventListener("keydown", keySelectionHandler, false);
+
+    canvas.addEventListener("keydown", keySelectionHandler, false);
 
     var beginInterval = setInterval(drawBeginScreen, 25);
 
     function postBeginScreen() {
-      document.removeEventListener("keydown", keySelectionHandler, false);
+      canvas.removeEventListener("keydown", keySelectionHandler, false);
       clearInterval(beginInterval);
 
       var x = canvas.width / 2;
@@ -223,8 +225,8 @@ title: "Corn"
       }
 
 
-      document.addEventListener("keydown", keyDownHandler, false);
-      document.addEventListener("keyup", keyUpHandler, false);
+      canvas.addEventListener("keydown", keyDownHandler, false);
+      canvas.addEventListener("keyup", keyUpHandler, false);
 
       var interval = setInterval(draw, 25);
     }
