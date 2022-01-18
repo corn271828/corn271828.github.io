@@ -62,20 +62,20 @@ title: "Corn"
     }
 
 
-    document.addEventListener("keypress", keySelectionHandler, false);
+    document.addEventListener("keydown", keySelectionHandler, false);
 
     var beginInterval = setInterval(drawBeginScreen, 25);
 
     function postBeginScreen() {
-      document.removeEventListener("keypress", keySelectionHandler, false);
+      document.removeEventListener("keydown", keySelectionHandler, false);
       clearInterval(beginInterval);
 
       var x = canvas.width / 2;
       var y = canvas.height / 2;
       var ballradius = 10;
 
-      var dx = 2;
-      var dy = 2;
+      var dx = 2 + selection;
+      var dy = 2 + selection;
 
       var paddleHeight = 10;
       var paddleWidth = 75;
