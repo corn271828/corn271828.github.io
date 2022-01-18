@@ -86,9 +86,6 @@ title: "Corn"
       var paddleX = (canvas.width - paddleWidth) / 2;
       var paddleY = canvas.height - paddleHeight - 10;
 
-      var rightpressed = false;
-      var leftpressed = false;
-
       var brickRows = selection + 2;
       var brickCols = selection * 2 + 3;
       var brickHeight = 20;
@@ -163,14 +160,13 @@ title: "Corn"
         x += dx;
         y += dy;
 
-        if (rightpressed) {
-          if (!leftpressed) {
-            paddleX += 7;
-            if (paddleX > canvas.width - paddleWidth) {
-              paddleX = canvas.width - paddleWidth;
-            }
+        if (rightDown()) {
+          paddleX += 7;
+          if (paddleX > canvas.width - paddleWidth) {
+            paddleX = canvas.width - paddleWidth;
           }
-        } else if (leftpressed) {
+        }
+        if (leftDown()) {
           paddleX -= 7;
           if (paddleX < 0) {
             paddleX = 0;
@@ -178,21 +174,17 @@ title: "Corn"
         }
       }
 
+      const pressed = new Set();
       function keyDownHandler(e) {
-        if (e.key == "Right" || e.key == "ArrowRight") {
-          rightpressed = true;
-        } else if (e.key == "Left" || e.key == "ArrowLeft") {
-          leftpressed = true;
-        }
+        pressed.add(e.key);
       } 
 
       function keyUpHandler(e) {
-        if (e.key == "Right" || e.key == "ArrowRight") {
-          rightpressed = false;
-        } else if (e.key == "Left" || e.key == "ArrowLeft") {
-          leftpressed = false;
-        }
+        pressed.delete(e.key);
       } 
+
+      const leftDown = () => pressed.has("Left") || pressed.has("ArrowLeft");
+      const rightDown = () => pressed.has("Right") || pressed.has("ArrowRight");
 
       function collisionDetection() {
         for(var c=0; c<brickCols; c++) {
