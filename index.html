@@ -72,6 +72,10 @@ title: "Corn"
 
       var x = canvas.width / 2;
       var y = canvas.height / 2;
+      if (selection > 5) {
+        y += (selection - 5) * 20;
+      }
+
       var ballradius = 10;
 
       var dx = 2 + selection;
