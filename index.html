@@ -19,23 +19,19 @@ title: "Corn"
     const ctx = canvas.getContext("2d");
 
     let selection = 0;
+    let difficulties = ["Easy", "Hard", "Insane", "Lunatic", "Bruh", "Ultra-Bruh"]
+    let numDiffs = difficulties.length;
 
     let beginScreenOver = false;
 
     function drawBeginScreen() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      ctx.font = (selection == 0 ? "bold " : "") + "16px Arial";
-      ctx.fillStyle = selection == 0 ? "#11A6EE" : "#0095DD";
-      ctx.fillText("Easy", 8, 30);
-
-      ctx.font = (selection == 1 ? "bold " : "") + "16px Arial";
-      ctx.fillStyle = selection == 1 ? "#11A6EE" : "#0095DD";
-      ctx.fillText("Hard", 8, 60);
-
-      ctx.font = (selection == 2 ? "bold " : "") + "16px Arial";
-      ctx.fillStyle = selection == 2 ? "#11A6EE" : "#0095DD";
-      ctx.fillText("Bruh", 8, 90);
+      for (let i = 0; i < numDiffs; i++) {
+        ctx.font = (selection == i ? "bold " : "") + "16px Arial";
+        ctx.fillStyle = selection == i ? "#11A6EE" : "#0095DD";
+        ctx.fillText(difficulties[i], 30, 30 * i);
+      }
     }
 
     function keySelectionHandler(e) {
@@ -43,7 +39,7 @@ title: "Corn"
           case "Down":
           case "ArrowDown":
             selection += 1;
-            if (selection >= 3) {
+            if (selection >= numDiffs) {
               selection = 0;
             }
             break;
@@ -51,7 +47,7 @@ title: "Corn"
           case "ArrowUp":
             selection -= 1;
             if (selection < 0) {
-              selection = 2;
+              selection = numDiffs - 1;
             }
             break;
           case "Enter":
