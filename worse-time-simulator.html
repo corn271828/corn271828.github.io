@@ -1,6 +1,6 @@
 ---
 layout: default
-title: "Corn"
+title: "Worse Time Simulator"
 ---
 
 <style>
@@ -8,20 +8,12 @@ title: "Corn"
 </style>
 
 <div class="home">
-  <p> Hello world! <p>
+  <p> Hope you like suffering. <p>
 
   <canvas id="myCanvas" width="480" height="320" tabindex=1></canvas>
-
-  <button id="worse-time-simulator"> Worse Time Simulator </button>
 
   <script type = "module">
     import { breakout } from './breakout.js';
     breakout();
-  </script>
-
-  <script type = "text/javascript">
-    document.getElementById("worse-time-simulator").onclick = function() {
-      location.href = "./worse-time-simulator.html";
-    };
   </script>
 </div>
