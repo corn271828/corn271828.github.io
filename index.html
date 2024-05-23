@@ -9,17 +9,15 @@ title: "Corn"
 </style>
 
 <div class="home">
-  <p> Hello world! <p>
 
-  <canvas id="myCanvas" width="480" height="320" tabindex=1></canvas>
-
-  <br>
+  <button id="celeste-incremental"> Celeste Incremental </button>
 
   <button id="worse-time-simulator"> Worse Time Simulator </button>
 
-  <script type = "module">
-    import { breakout } from './breakout.js';
-    breakout();
+  <script type = "text/javascript">
+    document.getElementById("celeste-incremental").onclick = function() {
+      location.href = "./celeste_incremental/index.html";
+    };
   </script>
 
   <script type = "text/javascript">
